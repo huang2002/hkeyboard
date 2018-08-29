@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1" />
+    <title>HKeyboard-test</title>
+</head>
+
+<body>
+    <pre style="font-size: 20px; font-family: Consolas;"><output id="out"></output></pre>
+    <script src="../dist/hkeyboard.umd.js"></script>
+    <script>
+        const out = document.getElementById('out'),
+            output = str => out.innerHTML += str + '\n';
+
+        const kb = new HKB.Keyboard();
+
+        ['Control+d', 'ctrl+A', 'Alt+a', 'Ctrl+a Alt+A', 'ctrl+Shift+d',
+            'Esc', 'F1', 'ctrl+alt+a', 'Ctrl+Shift+A', 'ctrl+shift+alt+a'
+        ].forEach(shortcut => kb.on(shortcut, () => output(shortcut)));
+
+        kb.listenOn(window);
+    </script>
+</body>
+
+</html>

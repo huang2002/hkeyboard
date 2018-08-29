@@ -1,0 +1,44 @@
+{
+    "name": "hkeyboard",
+    "description": "A keyboard lib.",
+    "version": "0.1.0",
+    "main": "dist/hkeyboard.umd.min.js",
+    "module": "dist/hkeyboard.min.js",
+    "types": "index.d.ts",
+    "scripts": {
+        "prebuild": "rd /q /s dist typings raw || exit 0",
+        "build": "tsc && rollup -c",
+        "postbuild": "terser dist/hkeyboard.js --config-file terser.json --module -o dist/hkeyboard.min.js && terser dist/hkeyboard.umd.js --config-file terser.json -o dist/hkeyboard.umd.min.js"
+    },
+    "license": "MIT",
+    "author": "3h",
+    "repository": "huang2002/hkeyboard",
+    "bugs": {
+        "url": "https://github.com/huang2002/hkeyboard/issues"
+    },
+    "homepage": "https://github.com/huang2002/hkeyboard#readme",
+    "keywords": [
+        "keyboard",
+        "keybinding",
+        "keymap",
+        "key",
+        "board",
+        "binding",
+        "map",
+        "listen",
+        "3h"
+    ],
+    "files": [
+        "dist",
+        "typings",
+        "index.d.ts"
+    ],
+    "devDependencies": {
+        "@babel/core": "^7.0.0",
+        "@babel/preset-env": "^7.0.0",
+        "rollup": "^0.65.0",
+        "rollup-plugin-babel": "^4.0.2",
+        "terser": "^3.8.2",
+        "typescript": "^3.0.1"
+    }
+}
