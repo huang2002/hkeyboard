@@ -13,13 +13,13 @@
         const out = document.getElementById('out'),
             output = str => out.innerHTML += str + '\n';
 
-        const kb = new HKB.Keyboard();
+        const kb = new HKB.Keyboard({
+            target: window
+        });
 
         ['Control+d', 'ctrl+A', 'Alt+a', 'Ctrl+a Alt+A', 'ctrl+Shift+d',
             'Esc', 'F1', 'ctrl+alt+a', 'Ctrl+Shift+A', 'ctrl+shift+alt+a'
         ].forEach(shortcut => kb.on(shortcut, () => output(shortcut)));
-
-        kb.listenOn(window);
     </script>
 </body>
 

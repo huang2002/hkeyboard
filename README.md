@@ -12,7 +12,10 @@ const HKB = window.HKB;
 
 // Create a keyboard:
 const keyboard = new HKB.Keyboard({
-    // Options...
+    // Automatic listening options:
+    target: window,
+    options: {},
+    // Other options...
 });
 
 // Subscribe to shortcuts:
@@ -28,7 +31,7 @@ keyboard.on('Esc', () => {
     // ...
 });
 
-// Start listening:
+// Start listening manually:
 keyboard.listenOn(window);
 ```
 

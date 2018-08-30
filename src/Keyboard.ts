@@ -19,14 +19,19 @@ export interface KeyboardOptions {
     preventDefault?: boolean;
     preventDefaultOnHitOnly?: boolean;
     aliases?: typeof defaultAliases;
+    target?: EventTarget;
+    options?: AddEventListenerOptions;
 }
 
 export class Keyboard implements KeyboardOptions {
 
     constructor(options: KeyboardOptions = {}) {
-        Object.assign(this, options);
         this.keydownHandler = this.keydownHandler.bind(this);
         this.keyupHandler = this.keyupHandler.bind(this);
+        Object.assign(this, options);
+        if (options.target) {
+            this.listenOn(options.target, options.options);
+        }
     }
 
     caseSensitive = false;
@@ -38,16 +43,9 @@ export class Keyboard implements KeyboardOptions {
     history = new Array<Record>();
     keybindings = new Array<KeyBinding>();
 
-    private _tgt?: EventTarget;
-    private _opt?: AddEventListenerOptions;
+    target?: EventTarget;
+    options?: AddEventListenerOptions;
     private _id: any;
-
-    get target() {
-        return this._tgt;
-    }
-    get options() {
-        return this._opt;
-    }
 
     clearLater() {
         clearTimeout(this._id);
@@ -118,20 +116,23 @@ export class Keyboard implements KeyboardOptions {
     }
 
     listenOn(target: EventTarget, options?: AddEventListenerOptions) {
-        [this._tgt, this._opt] = [target, options];
+        if (this.target) {
+            this.listenOff();
+        }
+        [this.target, this.options] = [target, options];
         target.addEventListener('keydown', this.keydownHandler as EventListener, options);
         target.addEventListener('keyup', this.keyupHandler as EventListener, options);
         return this;
     }
 
     listenOff() {
-        const { _tgt, _opt } = this;
-        if (!_tgt) {
+        const { target, options } = this;
+        if (!target) {
             throw "Haven't listened on any target!";
         }
-        _tgt.removeEventListener('keydown', this.keydownHandler as EventListener, _opt);
-        _tgt.removeEventListener('keyup', this.keyupHandler as EventListener, _opt);
-        this._tgt = this._opt = undefined;
+        target.removeEventListener('keydown', this.keydownHandler as EventListener, options);
+        target.removeEventListener('keyup', this.keyupHandler as EventListener, options);
+        this.target = this.options = undefined;
         return this;
     }
 
